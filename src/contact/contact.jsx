@@ -1,39 +1,9 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
 
 function Contact() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Initialize Google Generative AI client
-  const ai = new GoogleGenerativeAI({
-    apiKey: import.meta.env.VITE_GEMINI_AI_API_KEY,
-  });
-
-  async function getRes() {
-    if (!question.trim()) return;
-    setLoading(true);
-    try {
-      // Get a generative model instance
-      const model = ai.getGenerativeModel({ model: "gemini-pro" }); // or "gemini-1.5-flash"
-
-      // Generate content from the question string
-      const result = await model.generateContent(question);
-
-      // Get the response text
-      const response = await result.response;
-      const text = await response.text();
-
-      setAnswer(text);
-    } catch (err) {
-      setAnswer("⚠️ Failed to get response. Please try again later.");
-      console.error("Gemini error:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <>
@@ -66,32 +36,6 @@ function Contact() {
             className="rounded-xl w-full"
           />
         </div>
-      </div>
-
-      {/* Gemini AI Q&A */}
-      <div className="pt-24 px-4 max-w-2xl mx-auto text-center">
-        <h3 className="text-2xl font-bold mb-4">Ask Gemini AI about Apex College 🧠</h3>
-        <input
-          type="text"
-          placeholder="Type your question..."
-          className="w-full p-3 border rounded-lg text-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        <button
-          onClick={getRes}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
-          disabled={loading}
-        >
-          {loading ? "Thinking..." : "Send"}
-        </button>
-
-        {answer && (
-          <div className="mt-6 p-4 bg-gray-100 rounded-xl text-left text-lg">
-            <strong className="block mb-2">Answer:</strong>
-            <ReactMarkdown>{answer}</ReactMarkdown>
-          </div>
-        )}
       </div>
     </>
   );
