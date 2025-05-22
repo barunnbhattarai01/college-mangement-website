@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -7,7 +7,8 @@ function Contact() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const ai = new GoogleGenAI({
+  // Initialize Google Generative AI client
+  const ai = new GoogleGenerativeAI({
     apiKey: import.meta.env.VITE_GEMINI_AI_API_KEY,
   });
 
@@ -15,11 +16,17 @@ function Contact() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: `${question}`,
-      });
-      setAnswer(response.text);
+      // Get a generative model instance
+      const model = ai.getGenerativeModel({ model: "gemini-pro" }); // or "gemini-1.5-flash"
+
+      // Generate content from the question string
+      const result = await model.generateContent(question);
+
+      // Get the response text
+      const response = await result.response;
+      const text = await response.text();
+
+      setAnswer(text);
     } catch (err) {
       setAnswer("⚠️ Failed to get response. Please try again later.");
       console.error("Gemini error:", err);
