@@ -48,7 +48,7 @@ function Event() {
 
   return (
     <>
-      <div className="px-4 sm:px-6 md:px-10 lg:px-20 dark:bg-black text-white">
+      <div className="px-4 sm:px-6 md:px-10 lg:px-20 ">
         <div className="max-w-2xl mx-auto mt-20 p-4 sm:p-6 md:p-8 bg-white shadow-lg rounded-2xl border border-amber-300">
           <h2 className="text-4xl font-bold text-center text-amber-600 mb-8 uppercase">
             Create New Event
