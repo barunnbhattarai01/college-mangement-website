@@ -10,6 +10,7 @@ function Event() {
   const [submittedData, setSubmittedData] = useState(null);
   const [events, setEvents] = useState([]);
   const [apply, setApply] = useState(null);
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
   const afterApply = (index) => {
     setApply(index);
@@ -17,7 +18,6 @@ function Event() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = {
       name: eventName,
       org: organizer,
@@ -46,10 +46,20 @@ function Event() {
     fetchEvents();
   }, []);
 
+  // Dark mode effect
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
   return (
-    <>
+    <div className="dark:bg-gray-900 dark:text-white   transition-colors duration-500">
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 ">
-        <div className="max-w-2xl mx-auto mt-20 p-4 sm:p-6 md:p-8 bg-white shadow-lg rounded-2xl border border-amber-300">
+        <div className="max-w-2xl mx-auto mt-1 p-4 sm:p-6 md:p-8 bg-white dark:bg-gray-800 shadow-lg rounded-2xl border border-amber-300">
           <h2 className="text-4xl font-bold text-center text-amber-600 mb-8 uppercase">
             Create New Event
           </h2>
@@ -61,7 +71,7 @@ function Event() {
                 type="text"
                 value={eventName}
                 required
-                className="w-full border-2 border-gray-300 rounded-xl px-4 py-2 text-lg"
+                className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl px-4 py-2 text-lg"
                 onChange={(e) => setEventName(e.target.value)}
               />
             </div>
@@ -72,7 +82,7 @@ function Event() {
                 type="text"
                 value={organizer}
                 required
-                className="w-full border-2 border-gray-300 rounded-xl px-4 py-2 text-lg"
+                className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-xl px-4 py-2 text-lg"
                 onChange={(e) => setOrganizer(e.target.value)}
               />
             </div>
@@ -108,7 +118,7 @@ function Event() {
               {events.map((event, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white rounded-2xl shadow-xl p-6 border border-amber-400 uppercase relative"
+                  className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-2xl shadow-xl p-6 border border-amber-400 uppercase relative"
                   initial={{ opacity: 0, scale: 0.9, y: 30 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{
@@ -118,7 +128,7 @@ function Event() {
                   }}
                 >
                   <h2 className="text-2xl font-bold text-amber-600 mb-2">{event.name}</h2>
-                  <p className="text-lg text-gray-700 mb-4">Organizer: {event.org}</p>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">Organizer: {event.org}</p>
                   <button
                     className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-xl transition-all"
                     onClick={() => afterApply(index)}
@@ -127,7 +137,7 @@ function Event() {
                   </button>
 
                   {apply === index && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-95 p-4 sm:p-6 rounded-xl z-10 shadow-2xl max-w-full md:max-w-md mx-auto">
+                    <div className="absolute top-0 left-0 w-full h-full bg-white dark:bg-gray-900 bg-opacity-95 p-4 sm:p-6 rounded-xl z-10 shadow-2xl max-w-full md:max-w-md mx-auto">
                       <img
                         src={"/close.png"}
                         className="w-8 ml-auto cursor-pointer"
@@ -138,7 +148,7 @@ function Event() {
                         <input
                           type="text"
                           required
-                          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                       </span>
                       <span className="flex flex-col mb-4">
@@ -146,7 +156,7 @@ function Event() {
                         <input
                           type="text"
                           required
-                          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                       </span>
                       <span className="flex flex-col mb-4">
@@ -154,7 +164,7 @@ function Event() {
                         <input
                           type="number"
                           required
-                          className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                       </span>
                       <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition cursor-pointer">
@@ -168,7 +178,7 @@ function Event() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

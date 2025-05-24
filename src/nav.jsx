@@ -12,8 +12,10 @@ function Navbar() {
   React.useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
+      document.body.style.backgroundColor="#1a202c"
     } else {
       document.documentElement.classList.remove("dark");
+      document.body.style.backgroundColor="white"
     }
     localStorage.setItem("theme", theme);
   }, [theme]);
@@ -28,7 +30,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between items-center px-4 md:px-12 h-24 bg-amber-300 text-black text-lg md:text-2xl relative">
+      <div className="flex justify-between items-center px-4 md:px-12 h-24 bg-white shadow-lg text-black text-lg md:text-2xl relative">
         <div className="font-bold">Apex College</div>
 
         {/* Desktop Nav */}
