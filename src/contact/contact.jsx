@@ -1,9 +1,54 @@
 import { useState } from "react";
+ import { GoogleGenerativeAI } from "@google/generative-ai"
+import ReactMarkdown from 'react-markdown'; 
+
+
 
 function Contact() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const[error,seterror]=useState("");
+
+
+const api_key = import.meta.env.VITE_GEMINI_AI_API_KEY;
+
+ const genertecontent = async()=>{
+
+    if(!question.trim()){
+seterror("please enter the question");
+
+    }
+    seterror("");
+
+    try{
+     const GenAI = new GoogleGenerativeAI(api_key); //create the object to access the googlegenreative ai class
+     const model = GenAI.getGenerativeModel({ model: "gemini-1.5-flash"}); //use method to get model
+     const result = await model.generateContent(question); //now we request the model to gemreatae content and it give us object
+      const textresponse = result.response.text(); //it first take response from model and convert it into text
+      setAnswer(textresponse);
+  
+
+    }
+    catch(err){
+      console.error("Error",err)
+    }
+
+
+
+
+ }
+
+
+  // const handledown =(e)=>
+  // {
+  //  e.preventDefault();
+  //  genertecontent();
+
+
+  // }
+
+
 
   return (
     <>
@@ -39,7 +84,41 @@ function Contact() {
           />
         </div>
       </div>
-    </>
+  
+   {/*Gemini ai implenet*/}
+    <div className="flex  gap-3 h-auto ml-96 mt-10 flex-col ">
+            <h1 className="text-2xl">Gemini AI Chat</h1>
+            <div className="">
+                <textarea
+                    className="prompt-input"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+      
+                    placeholder="Ask Gemini anything..."
+                    rows="4"
+                ></textarea>
+                <button onClick={genertecontent} disabled={loading} className="cursor-pointer">
+                    {loading ? 'Sending...' : 'Send to AI'}
+                </button>
+            </div>
+
+</div>
+
+   {error && <p className="text-2xl">{error}</p>}
+
+   {answer &&(
+     <div className="">
+      
+  <ReactMarkdown>{answer}</ReactMarkdown>
+     </div>
+
+
+
+   )
+   }
+  
+
+  </>
   );
 }
 
