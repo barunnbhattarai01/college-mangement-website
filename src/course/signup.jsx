@@ -12,7 +12,7 @@ function Signup() {
     try {
       await createUserWithEmailAndPassword(auth, Username, Password);
     } catch (err) {
-      console.error("error");
+      console.error("error",err);
     }
   };
 

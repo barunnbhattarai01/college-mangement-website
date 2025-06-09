@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import {
-  createBrowserRouter,  RouterProvider}  from "react-router-dom"
+  createBrowserRouter,  RouterProvider,Route,createRoutesFromElements}  from "react-router-dom"
 import Footer from './footer.jsx'
 import Navbar from './nav.jsx'
 import Event from './event.jsx'
@@ -18,41 +18,25 @@ import Signup from './course/signup.jsx'
 
  
 const router =createBrowserRouter(
-  [
- {
-  path:"/",
-  element:<><Login/><Footer/></>
-  },
+  createRoutesFromElements(
+    <>
+    
+     <Route path='/' element={<><Login/><Footer/></>}/>
+     <Route path='/signup' element={<Signup/>}/>
+     <Route path='/' element={<App/>}>
+      <Route path='/home' element={<About/>}/>
+      <Route path='/event' element={<Event/>}/>
+      <Route path='/course' element={<Course/>}/>
+      <Route path='/contact' element={<Contact/>}/>
+      <Route path='/images' element={<Photo/>}/>
 
+     </Route>
+    
+    
+    
+    </>
+  )
 
-  {
-  path:"/home",
-  element:<><Navbar/><About/><Footer/></>
-  },
-  {
-  path:"/event",
-  element:<><Navbar/><Event/><Footer/></>
-  },
-  {
-    path:"/course",
-    element:<><Navbar/><Course/><Footer/></>
-  },
-  {
-    path:"/contact",
-    element:<><Navbar/><Contact/><Footer/></>
-  },
-  {
-    path:"/images",
-    element:<><Navbar/><Photo/><Footer/></>
-  },
-  {
-    path:"/signup",
-    element:<><Signup/></>
-  }
-
-  
-  
-  ]
   
   )
 
