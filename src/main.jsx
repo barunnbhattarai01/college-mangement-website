@@ -1,14 +1,15 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,  RouterProvider,Route,createRoutesFromElements}  from "react-router-dom"
+  import { BrowserRouter } from 'react-router-dom'
+
 import Footer from './footer.jsx'
 import Navbar from './nav.jsx'
 import Event from './event.jsx'
 import Slideshow from './slider.jsx'
-import { BrowserRouter } from 'react-router-dom'
 import About from './about.jsx'
 import Course from './course/course.jsx'
 import Contact from './contact/contact.jsx'
